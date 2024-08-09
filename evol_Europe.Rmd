@@ -1,0 +1,161 @@
+---
+title: "#evol_Europe\nQuelques données sur les évolutions des mailles communales (ou équivalentes) dans certains pays européens"
+author: "G. Bideau"
+date: '`r format(Sys.time(), "%d %B %Y %X")`' # %X pour rajouter l'heure
+# bibliography: biblio/biblio.bib
+link_citations: true
+output:
+     html_document:
+       toc: true
+       theme: united
+       css : css/styles.css
+       number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+```{r Setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, # Afficher ou non le code R dans le document
+                      eval	= TRUE, #	Exécuter ou non le code R à la compilation
+                      include	= TRUE, #	Inclure ou non le code R et ses résultats dans le document
+                      # results	“hide”/“asis”/“markup”/“hold”	Type de résultats renvoyés par le bloc de code
+                      warning = FALSE, # Afficher ou non les avertissements générés par le bloc
+                      message = FALSE,  # Afficher ou non les messages générés par le bloc
+                      cache=TRUE) # Utiliser le cache pour accélerer les knits
+
+# Librairies utilisées
+library(sf)
+library(cartography)
+library(mapsf)
+library(corrplot)
+library(cowplot)
+library(MTA)
+library(readxl)
+library(ggplot2)
+library(FactoMineR) 
+library(factoextra)
+library(cluster)
+# library(stringr)
+library(reshape)
+library(flows)
+library(sp)
+library(knitr)
+library(condformat)
+# library(dplyr)
+library(questionr)
+library(spdep) # Pour les matrices de contiguïté
+library(rgeoda) # Pour les matrices de contiguïté
+
+```
+
+Ce script présente la mise en graphique de données issues de sources secondaires. Le but est d'avoir une vision synthétique de l'évolution du nombre de communes (ou entités équivalentes) dans plusieurs pays européens.
+
+L'ensemble est mis à disposition dans une logique de science ouverte.
+
+Ce travail s'inscrit dans le cadre d'une étude plus générale sur les communes nouvelles :
+
+https://cv.hal.science/gabriel-bideau
+
+Licence CC-BY-NC-SA.
+
+Il est possible d'accéder au code de ce Markdown [ici](https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd) et au fichier regroupant les données (intégrant les métadonnées) [là](https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx).
+
+
+Ne pas hésiter à contacter l'auteur (gabriel.bideau@gmail.com) pour toute question.
+
+
+```{r Librairies, echo=FALSE}
+# Librairies (pas nécessairement toutes utilisées)
+library(sf)
+library(cartography)
+library(mapsf)
+library(corrplot)
+library(cowplot)
+library(MTA)
+library(readxl)
+library(ggplot2)
+library(FactoMineR) 
+library(factoextra)
+library(cluster)
+library(reshape)
+library(reshape2)
+library(flows)
+# NB : Pour le package flows, la version la plus récente est disponible ici :
+# remotes::install_github("rCarto/flows") # ou # install.packages("mapsf")
+# Pour obtenir une version plus ancienne (celle utilisée ici) : https://cran.r-project.org/src/contrib/Archive/flows/
+# install.packages("packages/flows_1.1.1.tar.gz", repos=NULL, type="source")
+library(sp)
+library(knitr)
+library(condformat) # https://cran.r-project.org/web/packages/condformat/vignettes/introduction.html
+library(units)
+# library(stringr)
+# library(dplyr)
+library(questionr)
+library(spdep) # Pour les matrices de contiguïté
+library(rgeoda) # Pour les matrices de contiguïté
+
+# Liste pour installer les packages si besoin :
+# sf cartography mapsf readxl foreign dplyr flextable knitr stringr units condformat forcats ggplot2 rstatix questionr corrplot gtsummary broom GGally effects forestmodel ggeffects labelled cowplot spdep rgeoda
+
+```
+
+
+À partir de différentes sources, réalisation d'un tableau donnant l'évolution du niveau communal pour différents pays européens.
+
+
+Sources des données
+
+Liste des pays membres de l'UE ou limitrophes de la France
+Source des données 1950, 2007 et Appellation1 : Comité européen sur la démocratie locale et régionale (CDLR) et Nogueira López Alba, 2007, Les relations entre les autorités centrales et les collectivités locales, s.l., Conseil de l’Europe. Quand plusieurs niveaux étaient disponibles, on a choisi ceux pour lesquels des données étaient disponibles dans les autres sources.
+https://rm.coe.int/16807480b3 
+
+NB : Les données "1950" sont parfois à une autre date, cf. source initiale.
+
+Source des données 2001 et Appellation2 : Motte Claude et Vouloir Marie-Christine, 2008, « Frontières administratives et identités communales. Le cas de la France, XVIII-XXe siècles », The Historical Review/La Revue Historique, 2008, vol. 5, p. 213‑238.
+
+
+Source des données 2012, 2016 et Appellation3 : Conseil des Communes et Régions d’Europe, 2016, Gouvernements locaux et régionaux en Europe. Structures et compétences, s.l., CCRE. 
+https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf 
+
+La colonne Comparaison_prbl signale une comparaison problématique : pour la France la prise en compte ou non de l'outre-mer, pour l'Irlande, l'existence de niveaux variés, pour le Royaume-Uni, la comparaison de niveaux différents (et de périmètres différents, tout le Royaume-Uni pour le CCRE), pour la Turquie la comparaison de niveaux visiblement différents.
+
+Compilation réalisée par Gabriel Bideau
+Date de création : 10/05/2024
+
+
+```{r}
+# Import des données
+
+comm_europe <- read_excel("data-raw/niveau_communal_europe.xlsx", 
+    col_types = c("text", "text", "text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "text"))
+
+pr_utilis <- subset(comm_europe, is.na(comm_europe$Comparaisons_prbl))
+pr_utilis$Pays_appell <- paste0 (pr_utilis$Pays, " (", pr_utilis$Appellation3, ")")
+pr_utilis <- pr_utilis[, c(11, 5:9)]
+summary(pr_utilis)
+pr_utilis <- pr_utilis[, c(1, 2, 4, 5, 6)]
+pr_utilis <- na.omit(pr_utilis)
+
+# pr_plot <- melt(comm_europe[, c(11, 5:9)])
+pr_plot <- melt(pr_utilis)
+
+# pr_plot$variable <- as.numeric(as.character(pr_plot$variable))
+
+barplot <- ggplot(pr_plot, aes(x=variable, y=value, fill = Pays_appell)) + 
+geom_bar( stat = "identity", position =  "stack", width=0.4) +
+# scale_fill_brewer(palette="Paired") +
+scale_fill_manual(name = "Pays", values=c("red", "blue", "green", "yellow", "orange", "purple", "pink", "darkcyan", "darkgreen", "black", "gray", "brown", "cyan", "magenta", "gold", "darkblue")) +
+  ylab("Nombre d'entités de l'échelon municipal") +
+  xlab("Année") +
+theme_bw()
+barplot
+barplot + scale_y_continuous(trans = 'log10')
+  
+
+
+tableau <- subset(comm_europe, is.na(comm_europe$Comparaisons_prbl))
+tableau <- tableau [, c(1, 4:9)]
+
+kable(tableau)
+
+```
+
