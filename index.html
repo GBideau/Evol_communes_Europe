@@ -12,7 +12,7 @@
 <meta name="author" content="G. Bideau" />
 
 
-<title>#evol_Europe Quelques données sur les évolutions des mailles communales (ou équivalentes) dans certains pays européens</title>
+<title>#evol_communes_Europe Quelques données sur les évolutions des mailles communales (ou équivalentes) dans certains pays européens</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -445,16 +445,34 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">#evol_Europe Quelques données sur les
-évolutions des mailles communales (ou équivalentes) dans certains pays
-européens</h1>
+<h1 class="title toc-ignore">#evol_communes_Europe Quelques données sur
+les évolutions des mailles communales (ou équivalentes) dans certains
+pays européens</h1>
 <h4 class="author">G. Bideau</h4>
-<h4 class="date">10 août 2024 00:05:21</h4>
+<h4 class="date">23 septembre 2024 15:14:38</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#objectif" id="toc-objectif"><span class="toc-section-number">1</span> Objectif</a></li>
+<li><a href="#sources-des-données" id="toc-sources-des-données"><span class="toc-section-number">2</span> Sources des données</a>
+<ul>
+<li><a href="#source-des-données-1950-2007-et-appellation1" id="toc-source-des-données-1950-2007-et-appellation1"><span class="toc-section-number">2.1</span> Source des données 1950, 2007 et
+Appellation1</a></li>
+<li><a href="#source-des-données-2001-et-appellation2" id="toc-source-des-données-2001-et-appellation2"><span class="toc-section-number">2.2</span> Source des données 2001 et
+Appellation2</a></li>
+<li><a href="#source-des-données-2012-2016-et-appellation3" id="toc-source-des-données-2012-2016-et-appellation3"><span class="toc-section-number">2.3</span> Source des données 2012, 2016 et
+Appellation3</a></li>
+<li><a href="#notes" id="toc-notes"><span class="toc-section-number">2.4</span> Notes</a></li>
+</ul></li>
+<li><a href="#réalisation-dun-tableau-et-dun-graphique" id="toc-réalisation-dun-tableau-et-dun-graphique"><span class="toc-section-number">3</span> Réalisation d’un tableau et d’un
+graphique</a></li>
+</ul>
+</div>
 
-<p>Ce script présente la mise en graphique de données issues de sources
+<p>NB : Ce script est un document de travail.</p>
+<p>Il présente la mise en graphique de données issues de sources
 secondaires. Le but est d’avoir une vision synthétique de l’évolution du
 nombre de communes (ou entités équivalentes) dans plusieurs pays
 européens.</p>
@@ -464,28 +482,46 @@ ouverte.</p>
 communes nouvelles :</p>
 <p><a href="https://cv.hal.science/gabriel-bideau" class="uri">https://cv.hal.science/gabriel-bideau</a></p>
 <p>Licence CC-BY-NC-SA.</p>
-<p>Il est possible d’accéder au code de ce Markdown <a href="https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd">ici</a>
-et au fichier regroupant les données (intégrant les métadonnées) <a href="https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx">là</a>.</p>
+<p>Il est possible d’accéder au code de ce Markdown ici : <a href="https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd" class="uri">https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd</a>
+(le code n’est pas affiché dans ce fichier html pour faciliter la
+lecture) et au fichier regroupant les données (et les métadonnées) là :
+<a href="https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx" class="uri">https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx</a>.</p>
 <p>Ne pas hésiter à contacter l’auteur (<a href="mailto:gabriel.bideau@gmail.com" class="email">gabriel.bideau@gmail.com</a>) pour toute question.</p>
+<div id="objectif" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Objectif</h1>
 <p>À partir de différentes sources, réalisation d’un tableau donnant
 l’évolution du niveau communal pour différents pays européens.</p>
-<p>Sources des données</p>
-<p>Liste des pays membres de l’UE ou limitrophes de la France Source des
-données 1950, 2007 et Appellation1 : Comité européen sur la démocratie
-locale et régionale (CDLR) et Nogueira López Alba, 2007, Les relations
-entre les autorités centrales et les collectivités locales, s.l.,
-Conseil de l’Europe. Quand plusieurs niveaux étaient disponibles, on a
-choisi ceux pour lesquels des données étaient disponibles dans les
-autres sources. <a href="https://rm.coe.int/16807480b3" class="uri">https://rm.coe.int/16807480b3</a></p>
+</div>
+<div id="sources-des-données" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Sources des
+données</h1>
+<div id="source-des-données-1950-2007-et-appellation1" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Source des données
+1950, 2007 et Appellation1</h2>
+<p>Comité européen sur la démocratie locale et régionale (CDLR) et
+Nogueira López Alba, 2007, Les relations entre les autorités centrales
+et les collectivités locales, s.l., Conseil de l’Europe. Quand plusieurs
+niveaux étaient disponibles, on a choisi ceux pour lesquels des données
+étaient disponibles dans les autres sources. <a href="https://rm.coe.int/16807480b3" class="uri">https://rm.coe.int/16807480b3</a></p>
 <p>NB : Les données “1950” sont parfois à une autre date, cf. source
 initiale.</p>
-<p>Source des données 2001 et Appellation2 : Motte Claude et Vouloir
-Marie-Christine, 2008, « Frontières administratives et identités
-communales. Le cas de la France, XVIII-XXe siècles », The Historical
-Review/La Revue Historique, 2008, vol. 5, p. 213‑238.</p>
-<p>Source des données 2012, 2016 et Appellation3 : Conseil des Communes
-et Régions d’Europe, 2016, Gouvernements locaux et régionaux en Europe.
-Structures et compétences, s.l., CCRE. <a href="https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf" class="uri">https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf</a></p>
+</div>
+<div id="source-des-données-2001-et-appellation2" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Source des données
+2001 et Appellation2</h2>
+<p>Motte Claude et Vouloir Marie-Christine, 2008, « Frontières
+administratives et identités communales. Le cas de la France, XVIII-XXe
+siècles », The Historical Review/La Revue Historique, 2008, vol. 5,
+p. 213‑238.</p>
+</div>
+<div id="source-des-données-2012-2016-et-appellation3" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Source des données
+2012, 2016 et Appellation3</h2>
+<p>Conseil des Communes et Régions d’Europe, 2016, Gouvernements locaux
+et régionaux en Europe. Structures et compétences, s.l., CCRE. <a href="https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf" class="uri">https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf</a></p>
+</div>
+<div id="notes" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Notes</h2>
 <p>La colonne Comparaison_prbl signale une comparaison problématique :
 pour la France la prise en compte ou non de l’outre-mer, pour l’Irlande,
 l’existence de niveaux variés, pour le Royaume-Uni, la comparaison de
@@ -494,12 +530,42 @@ pour le CCRE), pour la Turquie la comparaison de niveaux visiblement
 différents.</p>
 <p>Compilation réalisée par Gabriel Bideau Date de création :
 10/05/2024</p>
+</div>
+</div>
+<div id="réalisation-dun-tableau-et-dun-graphique" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Réalisation d’un
+tableau et d’un graphique</h1>
 <pre class="r"><code># Import des données
 
 comm_europe &lt;- read_excel(&quot;data-raw/niveau_communal_europe.xlsx&quot;, 
     col_types = c(&quot;text&quot;, &quot;text&quot;, &quot;text&quot;, &quot;text&quot;, &quot;numeric&quot;, &quot;numeric&quot;, &quot;numeric&quot;, &quot;numeric&quot;, &quot;numeric&quot;, &quot;text&quot;))
 
-pr_utilis &lt;- subset(comm_europe, is.na(comm_europe$Comparaisons_prbl))
+summary(comm_europe)</code></pre>
+<pre><code>##      Pays           Appellation1       Appellation2       Appellation3      
+##  Length:26          Length:26          Length:26          Length:26         
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##       1950            2001            2007              2012      
+##  Min.   :   77   Min.   :  118   Min.   :   60.0   Min.   :   60  
+##  1st Qu.:  303   1st Qu.:  308   1st Qu.:  214.2   1st Qu.:  226  
+##  Median : 1118   Median :  589   Median :  423.5   Median :  430  
+##  Mean   : 5172   Mean   : 5570   Mean   : 3947.6   Mean   : 4919  
+##  3rd Qu.: 3427   3rd Qu.: 8089   3rd Qu.: 3206.8   3rd Qu.: 3177  
+##  Max.   :38000   Max.   :36565   Max.   :36783.0   Max.   :37336  
+##  NA&#39;s   :5       NA&#39;s   :13      NA&#39;s   :4         NA&#39;s   :1      
+##       2016         Comparaisons_prbl 
+##  Min.   :   60.0   Length:26         
+##  1st Qu.:  226.0   Class :character  
+##  Median :  404.5   Mode  :character  
+##  Mean   : 4032.8                     
+##  3rd Qu.: 3117.2                     
+##  Max.   :36658.0                     
+## </code></pre>
+<pre class="r"><code>pr_utilis &lt;- subset(comm_europe, is.na(comm_europe$Comparaisons_prbl))
 pr_utilis$Pays_appell &lt;- paste0 (pr_utilis$Pays, &quot; (&quot;, pr_utilis$Appellation3, &quot;)&quot;)
 pr_utilis &lt;- pr_utilis[, c(11, 5:9)]
 summary(pr_utilis)</code></pre>
@@ -764,6 +830,7 @@ kable(tableau)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 
 
 

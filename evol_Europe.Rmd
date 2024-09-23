@@ -1,5 +1,5 @@
 ---
-title: "#evol_Europe\nQuelques données sur les évolutions des mailles communales (ou équivalentes) dans certains pays européens"
+title: "#evol_communes_Europe\nQuelques données sur les évolutions des mailles communales (ou équivalentes) dans certains pays européens"
 author: "G. Bideau"
 date: '`r format(Sys.time(), "%d %B %Y %X")`' # %X pour rajouter l'heure
 # bibliography: biblio/biblio.bib
@@ -47,7 +47,9 @@ library(rgeoda) # Pour les matrices de contiguïté
 
 ```
 
-Ce script présente la mise en graphique de données issues de sources secondaires. Le but est d'avoir une vision synthétique de l'évolution du nombre de communes (ou entités équivalentes) dans plusieurs pays européens.
+NB : Ce script est un document de travail.
+
+Il présente la mise en graphique de données issues de sources secondaires. Le but est d'avoir une vision synthétique de l'évolution du nombre de communes (ou entités équivalentes) dans plusieurs pays européens.
 
 L'ensemble est mis à disposition dans une logique de science ouverte.
 
@@ -57,14 +59,14 @@ https://cv.hal.science/gabriel-bideau
 
 Licence CC-BY-NC-SA.
 
-Il est possible d'accéder au code de ce Markdown [ici](https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd) et au fichier regroupant les données (intégrant les métadonnées) [là](https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx).
+Il est possible d'accéder au code de ce Markdown ici : https://gbideau.github.io/Evol_communes_Europe/evol_Europe.Rmd (le code n'est pas affiché dans ce fichier html pour faciliter la lecture) et au fichier regroupant les données (et les métadonnées) là : https://gbideau.github.io/Evol_communes_Europe/niveau_communal_europe.xlsx.
 
 
 Ne pas hésiter à contacter l'auteur (gabriel.bideau@gmail.com) pour toute question.
 
 
 ```{r Librairies, echo=FALSE}
-# Librairies (pas nécessairement toutes utilisées)
+# Librairies utilisées dans différents scripts (tout n'est peut-être pas nécessaire ici)
 library(sf)
 library(cartography)
 library(mapsf)
@@ -99,34 +101,47 @@ library(rgeoda) # Pour les matrices de contiguïté
 ```
 
 
+# Objectif
+
 À partir de différentes sources, réalisation d'un tableau donnant l'évolution du niveau communal pour différents pays européens.
 
 
-Sources des données
+# Sources des données
 
-Liste des pays membres de l'UE ou limitrophes de la France
-Source des données 1950, 2007 et Appellation1 : Comité européen sur la démocratie locale et régionale (CDLR) et Nogueira López Alba, 2007, Les relations entre les autorités centrales et les collectivités locales, s.l., Conseil de l’Europe. Quand plusieurs niveaux étaient disponibles, on a choisi ceux pour lesquels des données étaient disponibles dans les autres sources.
+
+## Source des données 1950, 2007 et Appellation1
+
+Comité européen sur la démocratie locale et régionale (CDLR) et Nogueira López Alba, 2007, Les relations entre les autorités centrales et les collectivités locales, s.l., Conseil de l’Europe. Quand plusieurs niveaux étaient disponibles, on a choisi ceux pour lesquels des données étaient disponibles dans les autres sources.
 https://rm.coe.int/16807480b3 
 
 NB : Les données "1950" sont parfois à une autre date, cf. source initiale.
 
-Source des données 2001 et Appellation2 : Motte Claude et Vouloir Marie-Christine, 2008, « Frontières administratives et identités communales. Le cas de la France, XVIII-XXe siècles », The Historical Review/La Revue Historique, 2008, vol. 5, p. 213‑238.
+## Source des données 2001 et Appellation2
+
+Motte Claude et Vouloir Marie-Christine, 2008, « Frontières administratives et identités communales. Le cas de la France, XVIII-XXe siècles », The Historical Review/La Revue Historique, 2008, vol. 5, p. 213‑238.
 
 
-Source des données 2012, 2016 et Appellation3 : Conseil des Communes et Régions d’Europe, 2016, Gouvernements locaux et régionaux en Europe. Structures et compétences, s.l., CCRE. 
+## Source des données 2012, 2016 et Appellation3
+
+Conseil des Communes et Régions d’Europe, 2016, Gouvernements locaux et régionaux en Europe. Structures et compétences, s.l., CCRE. 
 https://www.ccre.org/img/uploads/piecesjointe/filename/CEMR_structures_and_competences_2016_FR.pdf 
+
+## Notes
 
 La colonne Comparaison_prbl signale une comparaison problématique : pour la France la prise en compte ou non de l'outre-mer, pour l'Irlande, l'existence de niveaux variés, pour le Royaume-Uni, la comparaison de niveaux différents (et de périmètres différents, tout le Royaume-Uni pour le CCRE), pour la Turquie la comparaison de niveaux visiblement différents.
 
 Compilation réalisée par Gabriel Bideau
 Date de création : 10/05/2024
 
+# Réalisation d'un tableau et d'un graphique
 
 ```{r}
 # Import des données
 
 comm_europe <- read_excel("data-raw/niveau_communal_europe.xlsx", 
     col_types = c("text", "text", "text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "text"))
+
+summary(comm_europe)
 
 pr_utilis <- subset(comm_europe, is.na(comm_europe$Comparaisons_prbl))
 pr_utilis$Pays_appell <- paste0 (pr_utilis$Pays, " (", pr_utilis$Appellation3, ")")
